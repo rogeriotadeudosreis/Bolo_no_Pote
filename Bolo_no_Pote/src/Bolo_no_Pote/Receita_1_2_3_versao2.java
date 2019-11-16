@@ -153,11 +153,16 @@ public class Receita_1_2_3_versao2 {
 
 				} while (Valor_Ingredientes[codigo - 1] <= 0 || Valor_Ingredientes[codigo - 1] > 100000);
 
+				// Calculando o valor total de cada ingrediente
+
 				Valor_Total_Cada_Ingred_Receita_1[codigo
 						- 1] = (Valor_Ingredientes[codigo - 1] / Quant_Ingredientes[codigo - 1])
 								* Quant_Fixa_Receita_1[codigo - 1];
 
 			}
+
+			// Calculando o valor da embalagem separadamente
+
 			System.out.printf("Informe o valor de cada embalagem: ");
 			Preco_Unit_Embalagem = teclado.nextFloat();
 			Total_Embalagem = Qtde_Embalagem * Preco_Unit_Embalagem;
@@ -167,14 +172,21 @@ public class Receita_1_2_3_versao2 {
 			System.out.println("\n=====================================================================");
 			for (int i = 0; i < Ingredientes_Receita_1.length; i++) {
 
+				// Imprimindo os totais de cada ingredientes separadamente
+
 				System.out.printf("%.4f > %s\n", Valor_Total_Cada_Ingred_Receita_1[i], Ingredientes_Receita_1[i]);
 				Valor_Total_Receita_Sem_Embalagem += Valor_Total_Cada_Ingred_Receita_1[i];
 			}
+
+			// Calculando o valor total da receita com embalagem
+			// Calculando o valor unitário de cada pote de bolo
+			// Calculando o lucro em reais e em percentagem
+
 			Valor_Total_Receita_Com_Embalagem += Valor_Total_Receita_Sem_Embalagem + Total_Embalagem;
 			Valor_Pote_Unit = Valor_Total_Receita_Com_Embalagem / Qtde_Embalagem;
 			Lucro = Preco_Min_Venda_Pote - Valor_Pote_Unit;
 			perc_Lucro = (Lucro / Preco_Min_Venda_Pote) * 100;
-			
+
 			System.out.printf("\n=================== RESULTADO DE SUA PESQUISA =======================\n");
 			System.out.printf("%.4f > Valor total da receita sem embalagem\n", Valor_Total_Receita_Sem_Embalagem);
 			System.out.println("=====================================================================");
@@ -184,12 +196,14 @@ public class Receita_1_2_3_versao2 {
 			System.out.println("=====================================================================");
 			System.out.printf("%.2f > Valor unitário do Bolo no Pote\n", Valor_Pote_Unit);
 			System.out.println("=====================================================================");
-			System.out.printf("%.2f > Valor mínimo de venda unitário do Bolo no Pote\n", Preco_Min_Venda_Pote );
+			System.out.printf("%.2f > Valor mínimo de venda unitário do Bolo no Pote\n", Preco_Min_Venda_Pote);
 			System.out.println("=====================================================================");
 			System.out.printf("%.2f > Valor do lucro em R$\n", Lucro);
 			System.out.println("=====================================================================");
 			System.out.printf("%.2f %% > Valor do lucro em percentagem\n", perc_Lucro);
 			System.out.println("=====================================================================");
+
+			// Verificando se o valor de custo final do produto está abaixo do solicitado
 
 			if (Valor_Pote_Unit <= Custo_Max_Pote) {
 				System.out.printf("======================== RECEITA 1 - APROVADA =======================\n");
