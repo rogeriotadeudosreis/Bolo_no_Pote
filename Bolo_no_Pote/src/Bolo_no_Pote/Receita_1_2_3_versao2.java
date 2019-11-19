@@ -204,8 +204,7 @@ public class Receita_1_2_3_versao2 {
 			System.out.printf("Valor do lucro em .......................R$ %.2f\n\n", Lucro);
 			
 			System.out.printf("Valor do lucro em percentagem.............: %.2f %%\n\n", perc_Lucro);
-			System.out.println("========================================================================\n");
-
+			
 			// Verificando se o valor de custo final do produto está abaixo do solicitado
 
 			if (Valor_Pote_Unit <= Custo_Max_Pote) {
