@@ -1,0 +1,761 @@
+package Bolo_no_Pote;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Scanner;
+import java.util.Random;
+import java.util.InputMismatchException;
+/**
+ * @author Rogério, Aires e Deockar
+ */
+
+/*
+ * -------------------------------------------------------[ DESAFIO
+ * ]----------------------------------------------------------
+ * 
+ * Desenvolver um software que ao digitar os valores dos ingredientes com suas
+ * respectivas medidas, devolva para o usuário qual/quais receita(s) ele poderá
+ * fazer dentro do limite de gasto proposto na contextualização.
+ * 
+ * ----------------------------------------------[ RESULTADOS/ENTREGAS ESPERADOS
+ * ]---------------------------------------------
+ * 
+ * Desenvolver um software, onde:
+ * 
+ * 1. Resolva a situação problema proposta. Com as três receitas. Os dados podem
+ * ser fictícios (valores e medidas). 2. Calcule automaticamente o valor de
+ * custo de cada bolo no pote (incluso o valor da embalagem); 3. Calcule quanto
+ * o usuário irá ter de lucro (em R$ e em %), dado um valor de venda. 4. O
+ * software pode ser rodado no console. 5. O software deverá ser apresentado
+ * para o(s) professor(es) da(s) disciplina(s) participante(s). “Rodando”.
+ * 
+ */
+
+
+
+import java.util.Scanner;
+
+public class Receita_1_2_3_versao2 {
+	
+	public static void main(String[] args) {
+		Scanner teclado = new Scanner(System.in);
+
+		// ----------------------------------[ Declaração de variáveis da receita 1
+		// ]--------------------------------------------
+		String[] Ingredientes_Receita_1 = { "Açucar", "Margarina", "Ovos", "Farinha de Trigo", "Leite Condensado",
+				"creme de leite", "Leite Ninho", "Morango" };
+		int[] Quant_Ingredientes = new int[8];
+		float[] Valor_Ingredientes = new float[8];
+		float[] Quant_Fixa_Receita_1 = { 300, 300, 4, 300, 300, 300, 100, 20 };
+		float[] Valor_Total_Cada_Ingred_Receita_1 = new float[8];
+		float Valor_Total_Receita_Sem_Embalagem = 0;
+		int Qtde_Embalagem = 15;
+		float Preco_Unit_Embalagem, Total_Embalagem = 0;
+		float Valor_Total_Receita_Com_Embalagem = 0;
+		float Custo_Max_Pote = 2;
+		float Preco_Min_Venda_Pote = 5;
+		float Valor_Pote_Unit = 0;
+		float Lucro = 0;
+		float perc_Lucro = 0;
+
+		// ----------------------------------[ Declaração de variáveis da receita 2
+		// ]--------------------------------------------
+		String[] Ingredientes_Receita_2 = { "Açucar", "Margarina", "Ovos", "Farinha de Trigo", "Leite Condensado",
+				"creme de leite", "chocolate em pó" };
+		int[] Quant_Ingredientes2 = new int[7];
+		float[] Valor_Ingredientes2 = new float[7];
+		float[] Quant_Fixa_Receita_2 = { 300, 300, 4, 300, 300, 300, 100 };
+		float[] Valor_Total_Cada_Ingred_Receita_2 = new float[7];
+		float Valor_Total_Receita_Sem_Embalagem2 = 0;
+		int Qtde_Embalagem2 = 15;
+		float Preco_Unit_Embalagem2, Total_Embalagem2 = 0;
+		float Valor_Total_Receita_Com_Embalagem2 = 0;
+		float Custo_Max_Pote2 = 2;
+		float Preco_Min_Venda_Pote2 = 4;
+		float Valor_Pote_Unit2 = 0;
+		float Lucro2 = 0;
+		float perc_Lucro2 = 0;
+
+		// ----------------------------------[ Declaração de variáveis da receita 3
+		// ]--------------------------------------------
+		String[] Ingredientes_Receita_3 = { "Açucar", "Margarina", "Ovos", "Farinha de Trigo", "Suco de maracujá",
+				"Amido de Milho", "Leite", "Manteiga" };
+		int[] Quant_Ingredientes3 = new int[8];
+		float[] Valor_Ingredientes3 = new float[8];
+		float[] Quant_Fixa_Receita_3 = { 500, 300, 10, 300, 240, 5, 200, 50 };
+		float[] Valor_Total_Cada_Ingred_Receita_3 = new float[8];
+		float Valor_Total_Receita_Sem_Embalagem3 = 0;
+		int Qtde_Embalagem3 = 15;
+		float Preco_Unit_Embalagem3, Total_Embalagem3 = 0;
+		float Valor_Total_Receita_Com_Embalagem3 = 0;
+		float Custo_Max_Pote3 = 2;
+		float Preco_Min_Venda_Pote3 = 3.80f;
+		float Valor_Pote_Unit3 = 0;
+		float Lucro3 = 0;
+		float perc_Lucro3 = 0;
+
+		// ----------------------------------[ Declaração de variáveis diversas
+		// ]----------------------------------------------
+		int escolha = 0;
+		int codigo;
+		String usuarioInf = "ADMIN";
+		String senhaInf = "ADMIN";
+		int tentativas = 3;
+		int cont = 0;
+		char resp;
+
+		// Alguns print's apenas para visualizar melhor algumas saídas
+
+		Date data = new Date();
+		SimpleDateFormat formatar = new SimpleDateFormat("dd/MM/yyyy   HH:mm:ss");
+		String dataFormatada = formatar.format(data);
+
+		// Inicio da execução do programa
+		System.out.print(
+				"  --------------------------------------------------------------------------------------------------------------------------------\n"
+						+ "  ADR - Sistemas e Soluções em Tecnologia                                                                    "
+						+ dataFormatada + "\n"
+						+ "  --------------------------------------------------------------------------------------------------------------------------------\n"
+						+ "\n\n\n"
+						+ "                                                Gestão de Orçamentos & Viabilidades     \n\n\n"
+						+ "                                                            Usuario: ");
+
+		boolean testex = false;
+		do {
+
+			usuarioInf = teclado.next().toUpperCase().toString();
+			if (usuarioInf.equals("ADMIN")) {
+				testex = true;
+			} else {
+				System.out.printf(
+						"                                                            Usuário Inválido ! \n\t\t\t\t\t\t\t    Digite Novamente: ");
+			}
+
+		} while (testex == false);
+
+		System.out.print("\t\t\t\t\t\t\t    Senha  : ");
+
+		senhaInf = teclado.next().toUpperCase().toString();
+
+		do {
+			if (senhaInf.equals("ADMIN")) {
+				System.out.println("\n                                                        Bem vindo ao Sistema !");
+				break;
+			} else {
+				System.out.printf(
+						"\n  \t\t\t\t\t\t\t    Senha Inválida ! Após %d Tentativas Sua Senha Será Bloqueada! ",
+						tentativas);
+				System.out.printf("\n  \t\t\t\t\t\t\t    Digite Novamente: ");
+				senhaInf = teclado.next().toUpperCase().toString();
+				cont++;
+			}
+		} while (cont < tentativas);
+
+		if (!senhaInf.equals("ADMIN")) {
+			System.out.println("  \n\t\t\t\t\t\t\t    Senha Bloqueada! Procure o Administrador.");
+			System.exit(0);
+		}
+		do {
+			System.out.println(
+					"\n  -----------------------------------------------------------[ OPÇÕES ]-----------------------------------------------------------");
+			System.out.println(
+					"\n  1) Receita de Bolo no Pote - Leite Ninho com Morango\n  2) Receita de Bolo no Pote - Chocolate\n  3) Receita de Bolo no Pote - Maracujá\n  4) Sair");// Lista
+																																												// de
+																																												// opções
+																																												// de
+																																												// receitas
+			System.out.printf("\n  Escolha uma das opções acima: ");
+
+			// Validação para a escolha da receita
+
+			do {
+
+				boolean teste = false;
+				do {
+					try {
+						escolha = Integer.parseInt(teclado.next());
+						teste = true;
+					} catch (Exception erro) {
+						System.err.println(
+								"                                                    Opção inválida! digite de 1 a 4 : ");
+					}
+				} while (teste == false);
+
+				if (escolha != 1 && escolha != 2 && escolha != 3 && escolha != 4) {
+					System.err.printf(
+							"                                                    Opção inválida! digite de 1 a 4 : ");
+				}
+
+			} while (escolha != 1 && escolha != 2 && escolha != 3 && escolha != 4);
+
+			if (escolha == 1) {
+				System.out.println();
+				System.out.printf("  OK, você escolheu Leite Ninho com Morango!");
+				System.out.println();
+
+				// Gerando a lista de ingredientes da receita 1
+
+				System.out.println(
+						"\n  ---------------------------------------------------[ Lista de Ingredientes ]----------------------------------------------------\n");
+				for (int i = 0; i < Ingredientes_Receita_1.length; i++) {
+					System.out.printf("  %d ) %s\n", i + 1, Ingredientes_Receita_1[i]);
+				}
+				System.out.println();
+
+				// Percorrendo a lista e validando o código escolhido pelo usuário
+
+				for (int i = 0; i < Ingredientes_Receita_1.length; i++) {
+					do {
+						// ==================================================[ Ingredientes
+						// ]=========================================================
+
+						System.out.printf("  Código do ingrediente.........: ");
+
+						codigo = 0;
+						do {
+							boolean teste1 = false;
+							do {
+								try {
+									codigo = Integer.parseInt(teclado.next());
+									teste1 = true;
+								} catch (Exception erro1) {
+									System.err.println("  Código inválido, digite de 1 a 8 > ");
+								}
+							} while (teste1 == false);
+
+							if (codigo != 1 && codigo != 2 && codigo != 3 && codigo != 4 && codigo != 5 && codigo != 6
+									&& codigo != 7 && codigo != 8) {
+								System.err.printf("  Ops !!! - Código inválido, Digite de 1 a 8 > ");
+							}
+						} while (codigo != 1 && codigo != 2 && codigo != 3 && codigo != 4 && codigo != 5 && codigo != 6
+								&& codigo != 7 && codigo != 8);
+						if (Quant_Ingredientes[codigo - 1] != 0) {
+							System.out.printf("  Esse ingrediente já foi digitado\n");
+						}
+					} while (Quant_Ingredientes[codigo - 1] != 0);
+
+					// Validando se o código ja foi digitado antes
+
+					// ==========================================[Quantidade de
+					// Ingredientes]=========================================================
+
+					System.out.printf("  Quantidade de %s.........: ", Ingredientes_Receita_1[codigo - 1]);
+
+					// Validando a quantidade de ingredientes para que não seja negativa ou maior
+					// que 100000
+
+					Quant_Ingredientes[codigo - 1] = 0;
+					do {
+						boolean teste2 = false;
+						do {
+							try {
+								Quant_Ingredientes[codigo - 1] = Integer.parseInt(teclado.next());
+								teste2 = true;
+							} catch (Exception erro3) {
+								System.err.printf("  Quantidade inválida, por favor, digite novamente: ");
+							}
+
+						} while (teste2 == false);
+
+						if (Quant_Ingredientes[codigo - 1] <= 0 || Quant_Ingredientes[i] > 100000) {
+
+							System.err.printf("  Quantidade inválida, Por favor, digite quantidade entre 1 a 100000: ");
+						}
+
+					} while (Quant_Ingredientes[i] <= 0 || Quant_Ingredientes[i] > 100000);
+
+					// ==========================================[ Valor de
+					// Ingredientes]=========================================================
+
+					System.out.printf("  Valor do(a) %s........R$ ", Ingredientes_Receita_1[codigo - 1]);
+
+					Valor_Ingredientes[codigo - 1] = 0;
+					do {
+						boolean teste3 = false;
+						do {
+							try {
+								Valor_Ingredientes[codigo - 1] = Float.parseFloat(teclado.next().replace(",", "."));
+								teste3 = true;
+							} catch (Exception erro3) {
+								System.err.printf("  Preço inválido, por favor, digite novamente: ");
+
+							}
+
+						} while (teste3 == false);
+
+						if (Valor_Ingredientes[codigo - 1] <= 0 || Valor_Ingredientes[codigo - 1] > 100000)
+
+						{
+							System.err
+									.printf("  Preço inválido, por favor digite novamente um valor entre 1 e 100000: ");
+						}
+
+					} while (Valor_Ingredientes[codigo - 1] <= 0 || Valor_Ingredientes[codigo - 1] > 100000);
+
+					// Calculando o valor total de cada ingrediente
+
+					Valor_Total_Cada_Ingred_Receita_1[codigo
+							- 1] = (Valor_Ingredientes[codigo - 1] / Quant_Ingredientes[codigo - 1])
+									* Quant_Fixa_Receita_1[codigo - 1];
+
+				}
+
+				// ==========================================[ Calculando o valor da embalagem
+				// separadamente ]==================================
+
+				System.out.printf("  Valor de cada embalagem......: ");
+
+				Preco_Unit_Embalagem = 0;
+				do {
+					boolean teste3 = false;
+					do {
+						try {
+							Preco_Unit_Embalagem = Float.parseFloat(teclado.next().replace(",", "."));
+							teste3 = true;
+						} catch (Exception erro3) {
+							System.err.printf("  Preço inválido, por favor, digite novamente: ");
+
+						}
+
+					} while (teste3 == false);
+
+					if (Preco_Unit_Embalagem <= 0 || Preco_Unit_Embalagem > 100000)
+
+					{
+						System.err.printf("  Preço inválido, por favor digite novamente um valor entre 1 e 100000: ");
+					}
+
+				} while (Preco_Unit_Embalagem <= 0 || Preco_Unit_Embalagem > 100000);
+
+				Total_Embalagem = Qtde_Embalagem * Preco_Unit_Embalagem;
+
+				System.out.printf(
+						"  ----------------------------[ Valor unitário de cada ingrediente com base nos valores informados: ]-----------------------------\n");
+				for (int i = 0; i < Ingredientes_Receita_1.length; i++) {
+
+					// Imprimindo os totais de cada ingredientes separadamente
+
+					System.out.printf("  %s R$ %.4f \n", Ingredientes_Receita_1[i],
+							Valor_Total_Cada_Ingred_Receita_1[i]);
+					Valor_Total_Receita_Sem_Embalagem += Valor_Total_Cada_Ingred_Receita_1[i];
+				}
+
+				// Calculando o valor total da receita com embalagem
+				// Calculando o valor unitário de cada pote de bolo
+				// Calculando o lucro em reais e em percentagem
+
+				Valor_Total_Receita_Com_Embalagem += Valor_Total_Receita_Sem_Embalagem + Total_Embalagem;
+				Valor_Pote_Unit = Valor_Total_Receita_Com_Embalagem / Qtde_Embalagem;
+				Lucro = Preco_Min_Venda_Pote - Valor_Pote_Unit;
+				perc_Lucro = ((Preco_Min_Venda_Pote / Valor_Pote_Unit) - 1) * 100;
+
+				System.out.printf(
+						"\n  ----------------------------------------------------[ Resultado da Pesquisa ]---------------------------------------------------\n\n");
+				System.out.printf("  Valor total da receita sem embalagem.....R$ %.4f\n\n",
+						Valor_Total_Receita_Sem_Embalagem);
+				System.out.printf("  Valor total de 15 embalagens.............R$ %.4f\n\n", Total_Embalagem);
+				System.out.printf("  Valor total da receita com embalagem.....R$ %.4f\n\n",
+						Valor_Total_Receita_Com_Embalagem);
+				System.out.printf("  Valor de custo unitário do Bolo no Pote..R$ %.2f\n\n", Valor_Pote_Unit);
+				System.out.printf("  Valor de venda unitário do Bolo no Pote..R$ %.2f\n\n", Preco_Min_Venda_Pote);
+				System.out.printf("  Valor do lucro unitário em Reais.........R$ %.2f\n\n", Lucro);
+				System.out.printf("  Valor do lucro unitário em percentagem....: %.2f %%\n\n", perc_Lucro);
+
+				// Verificando se o valor de custo final do produto está abaixo do solicitado
+
+				if (Valor_Pote_Unit <= Custo_Max_Pote) {
+					System.out.printf(
+							"  ---------------------------------------[ Receita 1 - Leite Ninho com Morango- Aprovada  ]---------------------------------------\n");
+				} else {
+					System.out.printf(
+							"  ---------------------------------------[ Receita 1 - Leite Ninho com Morango- Reprovada ]---------------------------------------\n");
+				}
+			}
+
+			if (escolha == 2) {
+
+				System.out.println();
+				System.out.printf("  OK, você escolheu CHOCOLATE!");
+				System.out.println();
+
+				// Gerando a lista de ingredientes da receita 2
+
+				System.out.println(
+						"\n  ---------------------------------------------------[ Lista de Ingredientes ]----------------------------------------------------\n");
+				for (int i = 0; i < Ingredientes_Receita_2.length; i++) {
+					System.out.printf("  %d ) %s\n", i + 1, Ingredientes_Receita_2[i]);
+
+				}
+				System.out.println();
+
+				// Percorrendo a lista e validando o código escolhido pelo usuário
+
+				for (int i = 0; i < Ingredientes_Receita_2.length; i++) {
+					do {
+						System.out.printf("  Informe o código de um ingrediente: ");
+
+						codigo = 0;
+						do {
+
+							boolean teste1 = false;
+							do {
+								try {
+									codigo = Integer.parseInt(teclado.next());
+									teste1 = true;
+
+								} catch (Exception erro1) {
+									System.err.println("  Código inválido, digite de 1 a 7 > ");
+								}
+
+							} while (teste1 == false);
+
+							if (codigo != 1 && codigo != 2 && codigo != 3 && codigo != 4 && codigo != 5 && codigo != 6
+									&& codigo != 7) {
+								System.err.printf("  Ops !!! - Código inválido, Digite de 1 a 7 > ");
+
+							}
+						} while (codigo != 1 && codigo != 2 && codigo != 3 && codigo != 4 && codigo != 5 && codigo != 6
+								&& codigo != 7);
+						if (Quant_Ingredientes2[codigo - 1] != 0) {
+							System.out.printf("  Esse ingrediente já foi digitado\n");
+						}
+					} while (Quant_Ingredientes2[codigo - 1] != 0);
+
+					// Validando se o código ja foi digitado antes
+
+					System.out.printf("  Informe a quantidade de %s.................> ",
+							Ingredientes_Receita_2[codigo - 1]);
+
+					// Validando a quantidade de ingredientes para que não seja negativa ou maior
+					// que 100000
+
+					Quant_Ingredientes2[codigo - 1] = 0;
+					do {
+						boolean teste2 = false;
+						do {
+							try {
+								Quant_Ingredientes2[codigo - 1] = Integer.parseInt(teclado.next());
+								teste2 = true;
+							} catch (Exception erro3) {
+								System.err.printf("  Quantidade inválida, por favor, digite novamente: ");
+							}
+
+						} while (teste2 == false);
+
+						if (Quant_Ingredientes2[codigo - 1] <= 0 || Quant_Ingredientes2[i] > 100000) {
+
+							System.err.printf("  Quantidade inválida, Por favor, digite quantidade entre 1 a 100000: ");
+						}
+
+					} while (Quant_Ingredientes2[i] <= 0 || Quant_Ingredientes2[i] > 100000);
+
+					System.out.printf("  Informe o valor do(a) %s........>", Ingredientes_Receita_2[codigo - 1]);
+
+					Valor_Ingredientes2[codigo - 1] = 0;
+					do {
+						boolean teste3 = false;
+						do {
+							try {
+								Valor_Ingredientes2[codigo - 1] = Float.parseFloat(teclado.next().replace(",", "."));
+								teste3 = true;
+							} catch (Exception erro3) {
+								System.err.printf("  Preço inválido, por favor, digite novamente: ");
+
+							}
+
+						} while (teste3 == false);
+
+						if (Valor_Ingredientes2[codigo - 1] <= 0 || Valor_Ingredientes2[codigo - 1] > 100000)
+
+						{
+							System.err
+									.printf("  Preço inválido, por favor digite novamente um valor entre 1 e 100000: ");
+						}
+
+					} while (Valor_Ingredientes2[codigo - 1] <= 0 || Valor_Ingredientes2[codigo - 1] > 100000);
+
+					// Calculando o valor total de cada ingrediente
+
+					Valor_Total_Cada_Ingred_Receita_2[codigo
+							- 1] = (Valor_Ingredientes2[codigo - 1] / Quant_Ingredientes2[codigo - 1])
+									* Quant_Fixa_Receita_1[codigo - 1];
+				}
+
+				// Calculando o valor da embalagem separadamente
+
+				System.out.printf("  Valor de cada embalagem......: ");
+
+				Preco_Unit_Embalagem2 = 0;
+				do {
+					boolean teste3 = false;
+					do {
+						try {
+							Preco_Unit_Embalagem2 = Float.parseFloat(teclado.next().replace(",", "."));
+							teste3 = true;
+						} catch (Exception erro3) {
+							System.err.printf("  Preço inválido, por favor, digite novamente: ");
+
+						}
+
+					} while (teste3 == false);
+
+					if (Preco_Unit_Embalagem2 <= 0 || Preco_Unit_Embalagem2 > 100000)
+
+					{
+						System.err.printf("  Preço inválido, por favor digite novamente um valor entre 1 e 100000: ");
+					}
+
+				} while (Preco_Unit_Embalagem2 <= 0 || Preco_Unit_Embalagem2 > 100000);
+
+				Total_Embalagem2 = Qtde_Embalagem2 * Preco_Unit_Embalagem2;
+
+				System.out.printf(
+						"  ----------------------------[ Valor unitário de cada ingrediente com base nos valores informados: ]-----------------------------\n");
+				for (int i = 0; i < Ingredientes_Receita_2.length; i++) {
+
+					// Imprimindo os totais de cada ingredientes separadamente
+
+					System.out.printf("  %s R$ %.4f \n", Ingredientes_Receita_2[i],
+							Valor_Total_Cada_Ingred_Receita_2[i]);
+					Valor_Total_Receita_Sem_Embalagem2 += Valor_Total_Cada_Ingred_Receita_2[i];
+				}
+
+				// Calculando o valor total da receita com embalagem
+				// Calculando o valor unitário de cada pote de bolo
+				// Calculando o lucro em reais e em percentagem
+
+				Valor_Total_Receita_Com_Embalagem2 += Valor_Total_Receita_Sem_Embalagem2 + Total_Embalagem2;
+				Valor_Pote_Unit2 = Valor_Total_Receita_Com_Embalagem2 / Qtde_Embalagem2;
+				Lucro2 = Preco_Min_Venda_Pote2 - Valor_Pote_Unit2;
+				perc_Lucro2 = ((Preco_Min_Venda_Pote2 / Valor_Pote_Unit2) - 1) * 100;
+
+				System.out.printf(
+						"\n  ----------------------------------------------------[ Resultado da Pesquisa ]---------------------------------------------------\n\n");
+				System.out.printf("  Valor total da receita sem embalagem.....R$ %.4f\n\n",
+						Valor_Total_Receita_Sem_Embalagem2);
+				System.out.printf("  Valor total de 15 embalagens.............R$ %.4f\n\n", Total_Embalagem2);
+				System.out.printf("  Valor total da receita com embalagem.....R$ %.4f\n\n",
+						Valor_Total_Receita_Com_Embalagem2);
+				System.out.printf("  Valor de custo unitário do Bolo no Pote..R$ %.2f\n\n", Valor_Pote_Unit2);
+				System.out.printf("  Valor de venda unitário do Bolo no Pote..R$ %.2f\n\n", Preco_Min_Venda_Pote2);
+				System.out.printf("  Valor do lucro unitário em Reais.........R$ %.2f\n\n", Lucro2);
+				System.out.printf("  Valor do lucro unitário em percentagem....: %.2f %%\n\n", perc_Lucro2);
+
+				// Verificando se o valor de custo final do produto está abaixo do solicitado
+
+				if (Valor_Pote_Unit2 <= Custo_Max_Pote2) {
+					System.out.printf(
+							"  ----------------------------------------------[ Receita 2 - Chocolate - Aprovada  ]---------------------------------------------\n");
+				} else {
+					System.out.printf(
+							"  ----------------------------------------------[ Receita 2 - Chocolate - Reprovada ]---------------------------------------------\n");
+				}
+
+			}
+
+			if (escolha == 3) {
+
+				System.out.println();
+				System.out.printf("  OK, você escolheu MARACUJÁ!");
+				System.out.println();
+
+				// Gerando a lista de ingredientes da receita 2
+
+				System.out.println(
+						"\n  ---------------------------------------------------[ Lista de Ingredientes ]----------------------------------------------------\n");
+				for (int i = 0; i < Ingredientes_Receita_3.length; i++) {
+					System.out.printf("  %d ) %s\n", i + 1, Ingredientes_Receita_3[i]);
+
+				}
+				System.out.println();
+
+				// Percorrendo a lista e validando o código escolhido pelo usuário
+
+				for (int i = 0; i < Ingredientes_Receita_3.length; i++) {
+					do {
+						System.out.printf("  Informe o código de um ingrediente: ");
+
+						codigo = 0;
+						do {
+
+							boolean teste1 = false;
+							do {
+								try {
+									codigo = Integer.parseInt(teclado.next());
+									teste1 = true;
+
+								} catch (Exception erro1) {
+									System.err.println("  Código inválido, digite de 1 a 8 > ");
+								}
+
+							} while (teste1 == false);
+
+							if (codigo != 1 && codigo != 2 && codigo != 3 && codigo != 4 && codigo != 5 && codigo != 6
+									&& codigo != 7 && codigo != 8) {
+								System.err.printf("  Ops !!! - Código inválido, Digite de 1 a 8 > ");
+
+							}
+						} while (codigo != 1 && codigo != 2 && codigo != 3 && codigo != 4 && codigo != 5 && codigo != 6
+								&& codigo != 7 && codigo != 8);
+						if (Quant_Ingredientes3[codigo - 1] != 0) {
+							System.out.printf("  Esse ingrediente já foi digitado\n");
+						}
+					} while (Quant_Ingredientes3[codigo - 1] != 0);
+
+					// Validando se o código ja foi digitado antes
+
+					System.out.printf("  Informe a quantidade de %s.................> ",
+							Ingredientes_Receita_3[codigo - 1]);
+
+					// Validando a quantidade de ingredientes para que não seja negativa ou maior
+					// que 100000
+
+					Quant_Ingredientes3[codigo - 1] = 0;
+					do {
+						boolean teste2 = false;
+						do {
+							try {
+								Quant_Ingredientes3[codigo - 1] = Integer.parseInt(teclado.next());
+								teste2 = true;
+							} catch (Exception erro3) {
+								System.err.printf("  Quantidade inválida, por favor, digite novamente: ");
+							}
+
+						} while (teste2 == false);
+
+						if (Quant_Ingredientes3[codigo - 1] <= 0 || Quant_Ingredientes3[i] > 100000) {
+
+							System.err.printf("  Quantidade inválida, Por favor, digite quantidade entre 1 a 100000: ");
+						}
+
+					} while (Quant_Ingredientes3[i] <= 0 || Quant_Ingredientes3[i] > 100000);
+
+					System.out.printf("  Informe o valor do(a) %s........>", Ingredientes_Receita_3[codigo - 1]);
+
+					Valor_Ingredientes3[codigo - 1] = 0;
+					do {
+						boolean teste3 = false;
+						do {
+							try {
+								Valor_Ingredientes3[codigo - 1] = Float.parseFloat(teclado.next().replace(",", "."));
+								teste3 = true;
+							} catch (Exception erro3) {
+								System.err.printf("  Preço inválido, por favor, digite novamente: ");
+
+							}
+
+						} while (teste3 == false);
+
+						if (Valor_Ingredientes3[codigo - 1] <= 0 || Valor_Ingredientes3[codigo - 1] > 100000)
+
+						{
+							System.err
+									.printf("  Preço inválido, por favor digite novamente um valor entre 1 e 100000: ");
+						}
+
+					} while (Valor_Ingredientes3[codigo - 1] <= 0 || Valor_Ingredientes3[codigo - 1] > 100000);
+
+					// Calculando o valor total de cada ingrediente
+
+					Valor_Total_Cada_Ingred_Receita_3[codigo
+							- 1] = (Valor_Ingredientes3[codigo - 1] / Quant_Ingredientes3[codigo - 1])
+									* Quant_Fixa_Receita_3[codigo - 1];
+
+				}
+
+				// Calculando o valor da embalagem separadamente
+
+				System.out.printf("  Valor de cada embalagem......: ");
+
+				Preco_Unit_Embalagem3 = 0;
+				do {
+					boolean teste3 = false;
+					do {
+						try {
+							Preco_Unit_Embalagem3 = Float.parseFloat(teclado.next().replace(",", "."));
+							teste3 = true;
+						} catch (Exception erro3) {
+							System.err.printf("  Preço inválido, por favor, digite novamente: ");
+
+						}
+
+					} while (teste3 == false);
+
+					if (Preco_Unit_Embalagem3 <= 0 || Preco_Unit_Embalagem3 > 100000)
+
+					{
+						System.err.printf("  Preço inválido, por favor digite novamente um valor entre 1 e 100000: ");
+					}
+
+				} while (Preco_Unit_Embalagem3 <= 0 || Preco_Unit_Embalagem3 > 100000);
+
+				Total_Embalagem3 = Qtde_Embalagem3 * Preco_Unit_Embalagem3;
+
+				System.out.printf(
+						"  ----------------------------[ Valor unitário de cada ingrediente com base nos valores informados: ]-----------------------------\n");
+				for (int i = 0; i < Ingredientes_Receita_3.length; i++) {
+
+					// Imprimindo os totais de cada ingredientes separadamente
+
+					System.out.printf("  %s R$ %.4f \n", Ingredientes_Receita_3[i],
+							Valor_Total_Cada_Ingred_Receita_3[i]);
+					Valor_Total_Receita_Sem_Embalagem3 += Valor_Total_Cada_Ingred_Receita_3[i];
+				}
+
+				// Calculando o valor total da receita com embalagem
+				// Calculando o valor unitário de cada pote de bolo
+				// Calculando o lucro em reais e em percentagem
+
+				Valor_Total_Receita_Com_Embalagem3 += Valor_Total_Receita_Sem_Embalagem3 + Total_Embalagem3;
+				Valor_Pote_Unit3 = Valor_Total_Receita_Com_Embalagem3 / Qtde_Embalagem3;
+				Lucro3 = Preco_Min_Venda_Pote3 - Valor_Pote_Unit3;
+				perc_Lucro3 = ((Preco_Min_Venda_Pote3 / Valor_Pote_Unit3) - 1) * 100;
+
+				System.out.printf(
+						"\n  ----------------------------------------------------[ Resultado da Pesquisa ]---------------------------------------------------\n\n");
+				System.out.printf("  Valor total da receita sem embalagem.....R$ %.4f\n\n",
+						Valor_Total_Receita_Sem_Embalagem3);
+				System.out.printf("  Valor total de 15 embalagens.............R$ %.4f\n\n", Total_Embalagem3);
+				System.out.printf("  Valor total da receita com embalagem.....R$ %.4f\n\n",
+						Valor_Total_Receita_Com_Embalagem3);
+				System.out.printf("  Valor de custo unitário do Bolo no Pote..R$ %.2f\n\n", Valor_Pote_Unit3);
+				System.out.printf("  Valor de venda unitário do Bolo no Pote..R$ %.2f\n\n", Preco_Min_Venda_Pote3);
+				System.out.printf("  Valor do lucro unitário em Reais.........R$ %.2f\n\n", Lucro3);
+				System.out.printf("  Valor do lucro unitário em percentagem....: %.2f %%\n\n", perc_Lucro3);
+
+				// Verificando se o valor de custo final do produto está abaixo do solicitado
+
+				if (Valor_Pote_Unit3 <= Custo_Max_Pote3) {
+					System.out.printf(
+							"  ----------------------------------------------[ Receita 3 - Maracujá  - Aprovada  ]---------------------------------------------\n");
+				} else {
+					System.out.printf(
+							"  ----------------------------------------------[ Receita 3 - Maracujá  - Reprovada ]---------------------------------------------\n");
+				}
+			}
+
+			if (escolha == 4) {
+				System.out.println(
+						"\n                                              [  Fim do Programa - Obrigado  ]                                      \n");
+				System.exit(0);
+			}
+
+			System.out.println();
+			System.out.print("Deseja continuar a pesquisa? (S) Sim (N) Não\n");
+
+			resp = teclado.next().charAt(0);
+
+		} while (resp == 'S' || resp == 's');
+		System.out.println(
+				"\n                                              [  Fim do Programa - Obrigado  ]                                      \n");
+		teclado.close();
+	}
+
+	
+	
+	
+	
+	
+	
+	
+
+}
